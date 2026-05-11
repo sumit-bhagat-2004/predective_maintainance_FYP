@@ -1,0 +1,41 @@
+[Unit]
+Description=Predictive Maintenance FastAPI Backend
+Documentation=https://github.com/YOUR_USERNAME/predective_maintainance_FYP
+After=network.target
+
+[Service]
+Type=exec
+User=ubuntu
+Group=ubuntu
+
+# Change this path if you cloned the repo somewhere else
+WorkingDirectory=/home/ubuntu/predective_maintainance_FYP/backend
+
+# Activate the virtual environment by pointing PATH to it
+Environment="PATH=/home/ubuntu/predective_maintainance_FYP/backend/.venv/bin"
+
+# Load all .env variables
+EnvironmentFile=/home/ubuntu/predective_maintainance_FYP/backend/.env
+
+ExecStart=/home/ubuntu/predective_maintainance_FYP/backend/.venv/bin/gunicorn \
+    app.main:app \
+    --workers 2 \
+    --worker-class uvicorn.workers.UvicornWorker \
+    --bind 127.0.0.1:8000 \
+    --timeout 120 \
+    --access-logfile /var/log/predmaint/access.log \
+    --error-logfile  /var/log/predmaint/error.log \
+    --log-level info
+
+# Restart on crash with 5s delay
+Restart=on-failure
+RestartSec=5
+StartLimitIntervalSec=60
+StartLimitBurst=3
+
+# Security hardening
+NoNewPrivileges=yes
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target

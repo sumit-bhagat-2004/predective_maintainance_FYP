@@ -216,3 +216,56 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+
+#Guide
+
+# ============================================================
+# PROJECT-SPECIFIC IGNORES
+# ============================================================
+
+# Private setup docs (wiring, AWS credentials, deployment guides)
+#setup/
+
+# AWS IoT Certificates & Keys (NEVER commit these)
+*.pem
+*.key
+*.crt
+esp32_firmware/include/secrets.h
+
+# Backend environment & secrets
+backend/.env
+backend/data/
+backend/*.db
+
+# Frontend environment
+frontend/.env.local
+frontend/.env.production
+
+# Node modules
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+
+# Python virtual environments (backend)
+backend/.venv/
+backend/venv/
+
+# Collected sensor data (can be large)
+data/
+*.csv
+*.parquet
+baseline_*.csv
+imbalance_*.csv
+bearing_*.csv
+thermal_*.csv
+
+# ML model artifacts
+*.pkl
+*.joblib
+*.h5
+*.tflite
+
+# PlatformIO build artifacts
+esp32_firmware/.pio/
+esp32_firmware/.vscode/

@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  backend:
+    build: .
+    container_name: predmaint-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      # SQLite database persisted on host
+      - ./data:/app/data
+      # AWS certificates mounted read-only from host
+      # Change the left side (~/certs/predmaint) to wherever you stored your certs
+      - ${AWS_CERTS_DIR:-/home/ubuntu/certs/predmaint}:/certs:ro
+    env_file:
+      - .env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+# No network needed — backend talks out to AWS IoT via the internet
