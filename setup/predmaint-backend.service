@@ -19,7 +19,7 @@ EnvironmentFile=/home/ubuntu/predective_maintainance_FYP/backend/.env
 
 ExecStart=/home/ubuntu/predective_maintainance_FYP/backend/.venv/bin/gunicorn \
     app.main:app \
-    --workers 2 \
+    --workers 1 \
     --worker-class uvicorn.workers.UvicornWorker \
     --bind 127.0.0.1:8000 \
     --timeout 120 \
