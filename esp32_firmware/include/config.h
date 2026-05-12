@@ -43,7 +43,7 @@
 
 // ---- DHT22 Temperature/Humidity ----
 #define DHT_PIN      27
-#define DHT_TYPE     DHT22
+#define DHT_TYPE     DHT11
 
 // ---- HX711 Load Cell Amplifier ----
 #define HX711_DOUT_PIN  32

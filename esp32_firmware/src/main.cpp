@@ -281,7 +281,7 @@ void sensorTask(void* pvParams) {
 
             // Compute vibration RMS from buffer snapshot
             float sumSq = 0.0f;
-            int   count = min(vibBufHead, VIBRATION_BUF_SIZE);
+            int   count = (vibBufHead < VIBRATION_BUF_SIZE) ? vibBufHead : VIBRATION_BUF_SIZE;
             for (int i = 0; i < count; i++) {
                 float m = vibBuf[i].x * vibBuf[i].x
                         + vibBuf[i].y * vibBuf[i].y
@@ -429,7 +429,7 @@ bool publishVibrationBurst() {
     doc["ts"] = (unsigned long long)(timeClient.getEpochTime() * 1000ULL);
     JsonArray arr = doc.createNestedArray("samples");
 
-    int start = max(0, vibBufHead - VIBRATION_BUF_SIZE);
+    int start = (vibBufHead - VIBRATION_BUF_SIZE > 0) ? vibBufHead - VIBRATION_BUF_SIZE : 0;
     for (int i = start; i < vibBufHead && i < start + VIBRATION_BUF_SIZE; i++) {
         JsonObject s = arr.createNestedObject();
         s["x"] = round(vibBuf[i % VIBRATION_BUF_SIZE].x * 1000.0f) / 1000.0f;
