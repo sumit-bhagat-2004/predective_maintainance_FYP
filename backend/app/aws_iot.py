@@ -175,7 +175,12 @@ def publish_motor_command(pwm: int, forward: bool):
         payload=payload,
         qos=mqtt.QoS.AT_LEAST_ONCE,
     )
-    future.result(timeout=5)
+    try:
+        future.result(timeout=5)
+    except Exception as e:
+        msg = str(e) or repr(e)
+        logger.error(f"[MQTT] Motor publish failed: {msg}")
+        raise RuntimeError(msg)
     logger.info(f"[MQTT] Motor cmd sent: pwm={pwm} forward={forward}")
 
 

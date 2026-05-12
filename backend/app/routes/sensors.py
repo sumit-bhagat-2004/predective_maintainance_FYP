@@ -135,7 +135,8 @@ def control_motor(cmd: MotorCommandIn):
     try:
         iot.publish_motor_command(cmd.pwm, cmd.forward)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        detail = str(e) or repr(e)
+        raise HTTPException(status_code=500, detail=detail)
     return {
         "status":  "sent",
         "pwm":     cmd.pwm,
